@@ -21,9 +21,7 @@
               <li v-for="bracket in setup.brackets"
                 class="bracket list-group-item"
                 :key="bracket.id">
-                <div class="view">
-                  action buttons here
-                </div>
+                <span class="badge"><i class="fa fa-close"></i></span>
                 <input class="edit" type="text"
                   v-model="bracket.title">
               </li>
@@ -47,6 +45,7 @@ export default {
     return {
       editing: false,
       setup: {
+        lanes: 0,
         brackets: []
       },
       newBracket: ''
