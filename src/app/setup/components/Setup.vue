@@ -8,14 +8,15 @@
     </nav>
     <div class="row">
       <div class="col-xs-12">
-          <form class="form" @submit.prevent="processSave">
+          <form class="form"  v-on:submit.prevent>
             <div class="form-group">
               <label for="lanes" class="control-label">Number of Lanes</label>
               <input type="number" class="form-control" name="lanes" step="1" v-model="setup.lanes">
             </div>
             <div class="form-group">
               <label for="bracket" class="control-label">Brackets</label>
-              <input type="text" class="form-control" name="bracket" placeholder="Add bracket" step="1" v-model="newBracket" @keyup.enter="addBracket" >
+              <input type="text" class="form-control" name="bracket" placeholder="Add bracket" step="1" v-model="newBracket" >
+              <button class="btn"  v-on:click="addBracket">Add</button>
             </div>
             <ul class="bracket-list list-group">
               <li v-for="bracket in setup.brackets"
@@ -27,7 +28,7 @@
               </li>
             </ul>
             <p class="control">
-              <button class="button is-success">Submit</button>
+              <button class="button is-success" type="submit"  v-on:click="processSave()">Submit</button>
             </p>
           </form>
       </div>
@@ -38,7 +39,7 @@
 </template>
 
 <script>
-
+import { mapActions } from 'vuex'
 export default {
   name: 'setup',
   data: () => {
@@ -52,6 +53,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'createSetup'
+    ]),
     addBracket: function () {
       var value = this.newBracket && this.newBracket.trim()
       if (!value) {
@@ -63,7 +67,10 @@ export default {
       this.newBracket = ''
     },
     processSave: function () {
-
+      this.saveSetup()
+    },
+    saveSetup () {
+      this.createSetup(this.setup)
     }
   }
 }
